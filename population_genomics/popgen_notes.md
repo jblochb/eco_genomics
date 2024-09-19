@@ -12,12 +12,20 @@ to list the contents of the directory we use ls -l (can be abbreviated as ll) zc
 
 The \| symbol is the pipeline in bash coding language and it is used to send output of one function to another.
 
-### 09/12/2024 - Viewing VCF files and talking about filtering 
+### 09/12/2024 - Viewing VCF files and talking about filtering
 
-spack samtools 
-samtools tview (file)
-space bar shifts right and delete key shifts left
-white is a q mapping score of 30 and blue text has a q score of 20
-  Use the question mark button to pop up a legend with what everything means
+spack load samtools samtools tview (file) space bar shifts right and delete key shifts left white is a q mapping score of 30 and blue text has a q score of 20 Use the question mark button to pop up a legend with what everything means
 
 In bash coding, use cd .. to go back to previous directory
+
+### 09/17/2024 - Filtering VCF files and performing diversity stats
+
+### 09/19/2024 - Diversity Differentiation
+
+#Today we created the 02_Diversity_Differentiation_r script. We created a Manhattan plot showing the Fst value for each SNP. We were able to separate the chromosomes and see approximately where the centromere is (there are less SNPs there).
+
+#This required reformatting our vcf file to the proper format and column titles that the qqman function requires.
+
+#Some minor helpful things to remember: 
+#If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
+
