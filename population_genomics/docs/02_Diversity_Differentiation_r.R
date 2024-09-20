@@ -24,6 +24,7 @@ meta2 <- meta[meta$id %in% colnames(vcf@gt[,-1]),]
 # %in% is an operator that says find all of the values in common and exports the identical values into a new dataframe
 
 vcf@gt[1:5,1:3]
+vcf@gt[1:3,1:5]
 #@ svmbol can be used to navigate to the headings of dataframes within a larger file
 colnames(vcf@gt[,-1])
 colnames(vcf@gt[,-1])[1]
@@ -77,3 +78,86 @@ manhattan(vcf.div.MHplot,
           logp = F,
           ylab = "Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+
+#Imaging the scaffolds 
+
+library(vcfR)
+library(tidyverse)
+library(qqman)
+
+vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
+meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
+
+unique(vcf.div$CHROM)
+scaffolds<- unique(vcf.div$CHROM)[9:17]
+
+#has to tell qqman each chromosome number
+scaffnum <- as.data.frame(cbind(scaffolds,seq(1,9,1)))
+view(scaffnum)
+vcf.div.MHplot <- left_join(scaffnum, vcf.div, join_by(scaffolds==CHROM))
+
+vcf.div.MHplot <- vcf.div.MHplot %>%
+  filter(Gst>0) %>%
+  mutate(SNP=paste0(scaffolds,"_",POS))
+
+vcf.div.MHplot$V2 = as.numeric(vcf.div.MHplot$V2)
+vcf.div.MHplot$POS = as.numeric(vcf.div.MHplot$POS)
+str(vcf.div.MHplot)
+
+manhattan(vcf.div.MHplot, 
+          chr="V2",
+          bp="POS",
+          p="Gst",
+          col=c("blue4","orange3"),
+          logp = F,
+          ylab = "Fst among scaffold regions",
+          suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+head(vcf.div.MHplot)
+?head
+head(vcf.div.MHplot, n = 15)
+print(vcf.div.MHplot$V2)
+manhattan(vcf.div.MHplot, 
+          chr="V2",
+          bp="POS",
+          p="Gst",
+          col=c("blue4","orange3"),
+          logp = F,
+          ylab = "Fst among scaffold regions")
+print(vcf.div.MHplot$POS)
+?manhattan
+#maybe the POS are very different for each scaffold because they do not map well onto the manhattan plot 
+
+#image the scaffolds alongside the chromosomes?
+
+library(vcfR)
+library(tidyverse)
+library(qqman)
+
+vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
+meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
+
+unique(vcf.div$CHROM)
+chrm.name<- unique(vcf.div$CHROM)[1:17]
+
+#has to tell qqman each chromosome number
+chrmnum <- as.data.frame(cbind(chrm.name,seq(1,17,1)))
+view(chrmnum)
+vcf.div.MHplot <- left_join(chrmnum, vcf.div, join_by(chrm.name==CHROM))
+
+vcf.div.MHplot <- vcf.div.MHplot %>%
+  filter(Gst>0) %>%
+  mutate(SNP=paste0(chrm.name,"_",POS))
+
+vcf.div.MHplot$V2 = as.numeric(vcf.div.MHplot$V2)
+vcf.div.MHplot$POS = as.numeric(vcf.div.MHplot$POS)
+str(vcf.div.MHplot)
+
+manhattan(vcf.div.MHplot, 
+          chr="V2",
+          bp="POS",
+          p="Gst",
+          col=c("blue4","orange3"),
+          logp = F,
+          ylab = "Fst among scaffold regions",
+          suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+#still difficult to make out
