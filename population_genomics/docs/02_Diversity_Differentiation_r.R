@@ -69,7 +69,7 @@ manhattan(vcf.div.MHplot,
           logp = F,
           ylab = "Fst among regions")
 #Each dot is a SNP, colors alternate between chromosomes, v axis = Fst which means 
-#allelic divergence between populations (also the amount of non random mating that's occuring')
+#allelic divergence between populations (also the amount of non random mating that's occurring')
 manhattan(vcf.div.MHplot, 
           chr="V2",
           bp="POS",
@@ -78,7 +78,40 @@ manhattan(vcf.div.MHplot,
           logp = F,
           ylab = "Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+#some SNPs stand out in terms of genetic differentiation, they are likely under selection
 
+write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_By_Region.csv",
+          quote = F,
+          row.names = F)
+#where you want the file to be in quotes and add the name you want
+#no row names and no quotes to prevent future errors
+
+names(vcf.div.MHplot)
+#Hs values are stored in columns 4-9
+
+#We want to create one column that contains all the Hs values from each column
+vcf.div.MHplot %>%
+  as_tibble() %>% 
+  pivot_longer(c(4:9)) %>%
+  ggplot(aes(x = value, fill = name))+
+  geom_histogram(position="identity", alpha = 0.5, bins = 50)+
+  labs(title = "Genome Wide Expected Heterozygosity (Hs)", fill = "Regions",
+       x = "Gene Diversity within Regions", y = "Counts of SNPs")
+ggsave("Histogram_GenomeDiversity_byRegion.pdf", path = "~/projects/eco_genomics/population_genomics/figures/")
+
+#at extremes of this plot where Hst = 0 or 0.5, are likely places where there is only one allele in the population
+
+vcf.div.MHplot %>%
+  as_tibble() %>% 
+  pivot_longer(c(4:9)) %>%
+  group_by(name) %>%
+  filter(value!=0&0.5) %>%
+  summarise(avg_Hs=mean(value), StdDev_Hs = sd(value), N_Hs = n())
+#summarise can be used for many different statistics
+#with filtering out the values of 0, we can see the average Hs when we exclude the two extremes 
+#In R you can use != for does not equal 
+X11.options(type="cairo")
+options(bitmapType = "cairo")
 #Imaging the scaffolds 
 
 library(vcfR)
@@ -103,7 +136,7 @@ vcf.div.MHplot <- vcf.div.MHplot %>%
 vcf.div.MHplot$V2 = as.numeric(vcf.div.MHplot$V2)
 vcf.div.MHplot$POS = as.numeric(vcf.div.MHplot$POS)
 str(vcf.div.MHplot)
-
+view(vcf.div.MHplot)
 manhattan(vcf.div.MHplot, 
           chr="V2",
           bp="POS",
