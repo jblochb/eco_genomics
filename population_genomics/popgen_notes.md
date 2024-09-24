@@ -29,3 +29,7 @@ In bash coding, use cd .. to go back to previous directory
 #Some minor helpful things to remember: 
 #If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
 
+### 09/24/2024
+
+#We made a histogram of Hs using ggplot and used the ggsave command to save it as a PDF
+#We made a new R script for making a PCA. We also took notes on PCA. We had to filter the data to make sure that the SNPs were all separated by at least 500bp
