@@ -20,16 +20,26 @@ In bash coding, use cd .. to go back to previous directory
 
 ### 09/17/2024 - Filtering VCF files and performing diversity stats
 
+There are two commands we can use to try to fix the error when graphing that sometimes occurs when coding on the vacc. They are options(bitmapType='cairo') and X11.options(type="cairo").
+
+We learned about how genomic data is filtered. We filtered our vcf file by missingness, depth, and low frequency alleles.
+
+-   It's important to have both a low and high depth filter. The low filter is used
+
 ### 09/19/2024 - Diversity Differentiation
 
-#Today we created the 02_Diversity_Differentiation_r script. We created a Manhattan plot showing the Fst value for each SNP. We were able to separate the chromosomes and see approximately where the centromere is (there are less SNPs there).
+Today we created the 02_Diversity_Differentiation_r script. We created a Manhattan plot showing the Fst value for each SNP. We were able to separate the chromosomes and see approximately where the centromere is (there are less SNPs there).
 
 #This required reformatting our vcf file to the proper format and column titles that the qqman function requires.
 
-#Some minor helpful things to remember: 
-#If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
+#Some minor helpful things to remember: #If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
 
 ### 09/24/2024
 
-#We made a histogram of Hs using ggplot and used the ggsave command to save it as a PDF
-#We made a new R script for making a PCA. We also took notes on PCA. We had to filter the data to make sure that the SNPs were all separated by at least 500bp
+#We made a histogram of Hs using ggplot and used the ggsave command to save it as a PDF #We made a new R script for making a PCA. We also took notes on PCA. We had to filter the data to make sure that the SNPs were all separated by at least 500bp
+
+###09/26/24
+
+#We experiemented with the settings for ggplotting a PC graph then saved it to our figures folder.
+
+#Steve lectured on admixture mapping. He explained that the researcher chooses a K value which is the number of groups the program will separate the genomic data into. One individual can belong to multiple groups. Calculate p, q, and 2pq. Iterate until you find the K value that produces the least error.
