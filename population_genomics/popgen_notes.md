@@ -42,7 +42,7 @@ We made a histogram of Hs using ggplot and used the ggsave command to save it as
 
 We had to unzip the file outside of our working directory that we upload to github because it is so large. We then converted our vcf file to a geno file because this is the form the data should be in when running the pca command.
 
-### 09/24/26
+### 09/26/2024
 
 We experimented with the settings for ggplotting a PC graph then saved it to our figures folder. I copied all the various edits we can make to the ggplot, so I can refer to this script in the future.
 
