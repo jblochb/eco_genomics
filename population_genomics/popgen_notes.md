@@ -24,22 +24,30 @@ There are two commands we can use to try to fix the error when graphing that som
 
 We learned about how genomic data is filtered. We filtered our vcf file by missingness, depth, and low frequency alleles.
 
--   It's important to have both a low and high depth filter. The low filter is used
+-   It's important to have both a low and high depth filter. The low filter is used to remove SNPs that do not have enough coverage to produce an accurate base call and the high depth filter is used to remove SNPs that may have multiple DNA fragments from different genes mapping to them. This may be caused by gene paralogy.
+-   The missingness filter is applied both at the SNP level and the individual level. This is used to remove SNPs that are not present in a significant amount of individuals and to remove individuals that do not have a significant amount of SNPs.
+-   The low frequency allele filter is to remove alleles that are present in a very low percentage of the population such as 1%. These are removed because they have very information regarding phenotypes/genotypes at the population level.
 
 ### 09/19/2024 - Diversity Differentiation
 
 Today we created the 02_Diversity_Differentiation_r script. We created a Manhattan plot showing the Fst value for each SNP. We were able to separate the chromosomes and see approximately where the centromere is (there are less SNPs there).
 
-#This required reformatting our vcf file to the proper format and column titles that the qqman function requires.
+This required reformatting our vcf file to the proper format and column titles that the qqman function requires.
 
-#Some minor helpful things to remember: #If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
+Some minor helpful things to remember: #If you want to change the type of a value in a dataframe (such as from character to numberic), you can set the column name equal to as.numberic(colname)
 
 ### 09/24/2024
 
-#We made a histogram of Hs using ggplot and used the ggsave command to save it as a PDF #We made a new R script for making a PCA. We also took notes on PCA. We had to filter the data to make sure that the SNPs were all separated by at least 500bp
+We made a histogram of Hs using ggplot and used the ggsave command to save it as a PDF We made a new R script for making a PCA. We also took notes on PCA. We had to filter the data to make sure that the SNPs were all separated by at least 500bp to account for possible Linkage disequilibrium (LD).
 
-###09/26/24
+We had to unzip the file outside of our working directory that we upload to github because it is so large. We then converted our vcf file to a geno file because this is the form the data should be in when running the pca command.
 
-#We experiemented with the settings for ggplotting a PC graph then saved it to our figures folder.
+### 09/24/26
 
-#Steve lectured on admixture mapping. He explained that the researcher chooses a K value which is the number of groups the program will separate the genomic data into. One individual can belong to multiple groups. Calculate p, q, and 2pq. Iterate until you find the K value that produces the least error.
+We experimented with the settings for ggplotting a PC graph then saved it to our figures folder. I copied all the various edits we can make to the ggplot, so I can refer to this script in the future.
+
+To find the amount of variance a PC axis accounts for, you can divide the eigen value of PC axis of interest by the sum of all the eigen values. The first axis will always account for the highest variance and 2nd the 2nd most variance, etc.
+
+The plot that plots all the eigen values from greatest to least is known as a scree-plot.
+
+Steve lectured on admixture mapping. He explained that the researcher chooses a K value which is the number of groups the program will separate the genomic data into. One individual can belong to multiple groups. This occurs when they have a history of introgression/admixture/hybridization. Calculate p, q, and 2pq. Iterate until you find the K value that produces the least error.
