@@ -3,7 +3,7 @@ library(vcfR)
 library(ggplot2)
 library(qqman)
 library(pcadapt)
-
+options(bitmapType = "cairo")
 vcf<- read.pcadapt("/gpfs1/cl/pbio3990/PopulationGenomics/variants/vcf_final.filtered.vcf",
                    type = "vcf")
 
@@ -72,3 +72,4 @@ view(pcadapt.MHplot %>%
        filter(pPC1<quantile(pcadapt.MHplot$pPC1, 0.001)) %>% 
        select(chr.main, POS, pPC1))
 hist(pcadapt.pca$maf)
+?pcadapt.pca

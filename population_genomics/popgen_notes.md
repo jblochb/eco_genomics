@@ -51,3 +51,17 @@ To find the amount of variance a PC axis accounts for, you can divide the eigen 
 The plot that plots all the eigen values from greatest to least is known as a scree-plot.
 
 Steve lectured on admixture mapping. He explained that the researcher chooses a K value which is the number of groups the program will separate the genomic data into. One individual can belong to multiple groups. This occurs when they have a history of introgression/admixture/hybridization. Calculate p, q, and 2pq. Iterate until you find the K value that produces the least error.
+
+### 10/01/2024 - Admixture Analysis
+
+Today we started with working on the 3 PCA Admixture R script from last class and created an admixture plot using the snmf function within the LEA package and imaging the analysis in a barplot. This function uses a .geno file. Within the snmf analysis, we used K = 1:10 to test a range of K values to see which might be the most accurate. We also set entropy = T to have the model use genomic data to test its strength. The K values we chose to investigate more were the ones in "the elbow of the graph." This means when the cross-entropy scores just begin to level off on the resulting plot. Interestingly, the plot of K values vs cross-entropy scores looks very similar when number of PCs is graphed against Eigen values. This is because we can think of our K value in terms of how many PCs we are using to categorize the data.
+
+We also used the PCAdapt library for the first time. We filter out the minor frequency alleles with a frequency of less than or equal to 0.01. We also make sure to generate the PCA axes while accounting for LD. We also have to organize the SNPs in a data frame so they all have a column with an integer that designates the chromosome it is on. For the Manhattan command, all important data must be read as numeric and all NA values must be removed,
+
+Other small notes
+
+-   A Tibble is a tidyverse data frame.
+
+-   You can label myK equal to any K value you are interested in. Using this throughout your code will allow you to investigate other K values faster.
+
+-   dev.off() is required after exporting pdfs or finishing other commands such as par().

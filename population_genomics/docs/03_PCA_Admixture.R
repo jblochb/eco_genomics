@@ -2,6 +2,8 @@ library(tidyverse)
 library(vcfR)
 library(SNPfiltR)
 library(LEA)
+
+?barplot
 options(bitmapType = "cairo")
 setwd("~/projects/eco_genomics/population_genomics/")
 vcf<- read.vcfR("outputs/vcf_final.filtered.vcf.gz")
@@ -113,7 +115,7 @@ my.colors= c("blue4", "darkolivegreen3", "tomato", "darkorchid", "darkgoldenrod1
 myKQmeta = as_tibble(myKQmeta) %>%
   group_by(continent) %>% 
   arrange(region, pop, .by_group = TRUE)
-#first group separetly by continent then from within continent by region, within region by group
+#first group separately by continent then from within continent by region, within region by group
 #tibble is a tidyverse data table
 barplot(as.matrix(t(myKQmeta[ , 1:myK])),
         border = NA,
