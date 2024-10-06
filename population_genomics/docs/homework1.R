@@ -153,3 +153,41 @@ library(LEA)
 
 vcf.thin60 <- distance_thin(vcf60, min.distance = 500)
 vcf.thin45 <- distance_thin(vcf45, min.distance = 500)
+
+write.vcf(vcf.thin60,"/gpfs1/home/j/b/jblochbe/vcf_final.filtered.thinned.sixty.vcf.gz")
+#hide the uncompressed vcf file because it is too big for github (hide outside repo)
+write.vcf(vcf.thin60,"~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.thinned.sixty.vcf.gz")
+??vcg2geno
+system("gunzip -c ~/vcf_final.filtered.thinned.sixty.vcf.gz > ~/vcf_final.filtered.thinned.sixty.vcf")
+setwd("~/projects/eco_genomics/population_genomics/")
+geno60 <- vcf2geno(input.file="/gpfs1/home/j/b/jblochbe/vcf_final.filtered.thinned.sixty.vcf",
+                 output.file = "outputs/vcf_final.filtered.thinned60.geno")
+CentPCA <- LEA::pca("outputs/vcf_final.filtered.thinned60.geno", scale = TRUE)
+
+plot(CentPCA$projections,
+     col=as.factor(meta60$region))
+legend("bottomright", legend = as.factor(unique(meta60$region)), fill = as.factor(unique(meta60$region)))
+
+CentPCA<- load.pcaProject(("vcf_final.filtered.thinned60.pcaProject"))
+show(CentPCA)
+plot(CentPCA)
+library(tidyverse)
+ggplot(as.data.frame(CentPCA$projections),
+       aes(x= V1, y= V2, color = meta60$region, shape= meta60$continent))+
+  geom_point(alpha=0.7)+
+  labs(title = "Centaurea genetic PCA (60% Individual Missingness Filter)", x = "PC1", y = "PC2", color = "Region", shape = "Color")
+# xlim(-10,10)+ ylim(-10,10)
+ggsave("figures/CentPCA_PC1vsPC2.pdf", width = 6, height = 6, units = "in")
+
+"coral1"
+
+library(tidyverse)
+library(vcfR)
+library(SNPfiltR)
+library(LEA)
+
+setwd("/gpfs1/cl/pbio3990/PopulationGenomics/")
+vcf60 <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_sixty_missingness.vcf.gz")
+meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
+
+meta60 <- meta[meta$id %in% colnames(vcf60@gt[,-1]),]

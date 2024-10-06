@@ -24,6 +24,7 @@ write.vcf(vcf.thin,"~/projects/eco_genomics/population_genomics/outputs/vcf_fina
 #hide the uncompressed vcf file because it is too big for github (hide outside repo)
 
 system("gunzip -c ~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.thinned.vcf.gz > ~/vcf_final.filtered.thinned.vcf")
+setwd("~/projects/eco_genomics/population_genomics/")
 
 geno <- vcf2geno(input.file = "/gpfs1/home/j/b/jblochbe/vcf_final.filtered.thinned.vcf",
                  output.file = "outputs/vcf_final.filtered.thinned.geno")
