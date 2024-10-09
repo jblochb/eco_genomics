@@ -65,3 +65,5 @@ Other small notes
 -   You can label myK equal to any K value you are interested in. Using this throughout your code will allow you to investigate other K values faster.
 
 -   dev.off() is required after exporting pdfs or finishing other commands such as par().
+
+

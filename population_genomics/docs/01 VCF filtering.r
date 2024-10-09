@@ -48,9 +48,11 @@ heatmap.bp(DP)
 heatmap.bp(DP[1:1000,], rlabels = F, clabels = F)
 
 library(SNPfiltR)
+
 ?SNPfiltR
 #exploring filtering by depth
 hard_filter(vcf)
+vcf.filt<- vcf
 vcf.filt <- hard_filter(vcf, depth = 3)
 
 vcf.filt <- max_depth(vcf.filt, maxdepth = 60)
@@ -70,11 +72,11 @@ meta2$pop = as.factor(meta$id)
 options(bitmapType='cairo')
 ?X11.options
 X11.options(type="cairo")
-vcf.filt.indMiss <- missing_by_sample(vcf.filt, popmap = meta2, cutoff = 0.75)
+vcf.filt.indMiss <- missing_by_sample(vcf.filt, popmap = meta2, cutoff = 0.60)
 strwidth(vcf.filt, font = NULL)
 ?missing_by_sample
 ?strwidth
-
+dim(vcf.filt)
 vcf.filt.indMiss <- filter_biallelic(vcf.filt.indMiss)
 #min_mac = minimum minor allele count (this gets rid of NAs)
 vcf.filt.indMiss <- min_mac(vcf.filt.indMiss, min.mac = 1)

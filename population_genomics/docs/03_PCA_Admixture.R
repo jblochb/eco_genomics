@@ -46,7 +46,7 @@ ggplot(as.data.frame(CentPCA$projections),
        geom_point(alpha=0.7)+
   labs(title = "Centaurea genetic PCA", x = "PC1", y = "PC2", color = "Region", shape = "Color")
  # xlim(-10,10)+ ylim(-10,10)
-ggsave("figures/CentPCA_PC1vsPC2.pdf", width = 6, height = 6, units = "in")
+ggsave("figures/CentPCA_PC1vsPC2.75.pdf", width = 6, height = 6, units = "in")
 #regraph PC2 vs PC3
 ggplot(as.data.frame(CentPCA$projections),
        aes(x= V2, y= V3, color = meta2$region, shape= meta2$continent))+
@@ -55,6 +55,7 @@ ggplot(as.data.frame(CentPCA$projections),
 
 sum(CentPCA$eigenvalues)
 CentPCA$eigenvalues[1]/sum(CentPCA$eigenvalues)
+CentPCA$eigenvalues[2]/sum(CentPCA$eigenvalues)
 #tells you how much percent a PCA accounts for 
 
 
@@ -96,6 +97,7 @@ plot(CentAdmix, color = "blue4", main = "SNMF")
 
 #To remove the project, use:
   #remove.snmfProject("outputs/vcf_final.filtered.thinned.snmfProject")
+?par
 par(mfrow=c(2,1))
 plot(CentPCA$eigenvalues[1:10], ylab = "Eigenvalues", xlab = "Number of PCs", color= "blue4", main = "PCA")
 plot(CentAdmix, col = "blue4", main = "SNMF")
