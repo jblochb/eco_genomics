@@ -6,6 +6,7 @@ library(LEA)
 ?barplot
 options(bitmapType = "cairo")
 setwd("~/projects/eco_genomics/population_genomics/")
+setwd("~/")
 vcf<- read.vcfR("outputs/vcf_final.filtered.vcf.gz")
 
 # We need to thin the SNPs for LD (linkage disequilibrium) before we run
