@@ -38,3 +38,12 @@ Today we continuted working with the copopod dataset. We had to run the first tw
 We find the DEGs by reducing our contrast data frames to only include the rows that have a p value < 0.05.
 
 ### 10/22/2024 Transcriptomics day 5 
+We created scatter plots of copepod contrasts allowing us to see how gene expression at a specific FinalTemp changed depending on the DevTemp (BASE vs 18). 
+### 10/24/2024 Transcriptomics day 6
+We began by finishing the scatter plots we started last class by adding in ablines. We then used grid.arrange function in the gridExtra package to combine the two plots into one figure. We used ggsave to export a png of the combined figure. The first step for this analysis is to import our data (counts matrix, conds data, and a new file which is our trait observation data)
+
+We created a new script titled WGCNA. This script has the purpose of analyzing and visualizing gene correlation networks.
+
+We ran a network topology analysis function then created plots of the power vs scale free topology and mean connectivity to pick a power that will create biologically relevant topology model. You want to pick an r^2 value > 0.8 without getting too close to zero on the power vs mean connectivity graph. 
+
+The blockwise module commmand did not finish running and I should try again by increasing the amount of memory requested from the VACC to see if it runs. 

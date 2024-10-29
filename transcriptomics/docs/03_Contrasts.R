@@ -114,14 +114,18 @@ label_positions <- data.frame(
 )
 
 label_data <- merge(color_counts, label_positions, by = "fill")
-ggplot(res_df28, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill))+
+plot28 <- ggplot(res_df28, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill))+
   geom_point(alpha = 0.8)+
   scale_color_identity()+
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black")+
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey")+
+  xlim(-10,10)+ ylim(-10,10)+
   labs(x = "Log2FoldChange 28 vs BASE at 18", y = "Log2FoldChange 28 vs BASE at 22",
        title = "How does response to 28 C vary by DevTemp?")+
   theme_minimal()+
   geom_text(data = label_data, aes(x = x_pos, y = y_pos, label = count, color = fill), size = 5)
 
+plot28
 #######################################################
 
 #Making the scatter plot for A33 at different devTemps
@@ -152,9 +156,31 @@ res_df33 <- res_df33 %>%
   ))
 # plot above
 
-ggplot(res_df33, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill))+
+color_counts2 <- res_df33 %>% 
+  group_by(fill) %>%
+  summarise(count = n())
+
+label_positions <- data.frame(
+  fill = c("blue2", "magenta1", "red","turquoise2"),
+  x_pos =c(1,5,0,-7.5),
+  y_pos =c(-5,0,9,3)
+)
+
+label_data2 <- merge(color_counts2, label_positions, by = "fill")
+plot33 <- ggplot(res_df33, aes(x = log2FoldChange.18, y = log2FoldChange.22, color = fill))+
   geom_point(alpha = 0.8)+
   scale_color_identity()+
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black")+
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey")+
+  xlim(-10,10)+ ylim(-10,10)+
   labs(x = "Log2FoldChange 33 vs BASE at 18", y = "Log2FoldChange 33 vs BASE at 22",
        title = "How does response to 33 C vary by DevTemp?")+
-  theme_minimal()
+  theme_minimal()+
+  geom_text(data = label_data2, aes(x = x_pos, y = y_pos, label = count, color = fill), size = 5)
+
+#Put the two plots together in a two panel plot
+library(gridExtra)
+
+combined_plot <- grid.arrange(plot28, plot33, ncol = 2)
+
+ggsave("~/projects/eco_genomics/transcriptomics/figures/combined_scatter_plot.png", combined_plot, width = 12, height = 6)
