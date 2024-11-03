@@ -5,7 +5,7 @@ library(pheatmap)
 resultsNames(dds)
 #[1] "Intercept"             "DevTemp_D22_vs_D18"    "FinalTemp_A33_vs_A28" 
 #[4] "FinalTemp_BASE_vs_A28"
-
+saveRDS(dds, file = "outputs/dds.rds")
 #Pull out the results for developmental temp 22 vs 18 degrees
 res_D22vsD18 <- results(dds, name = "DevTemp_D22_vs_D18", alpha = 0.05)
 #order by significance 

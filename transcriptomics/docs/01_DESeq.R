@@ -84,7 +84,7 @@ vsd <- vst(dds, blind = F)
 
 pcaData <- plotPCA(vsd, intgroup = cbind("DevTemp", "FinalTemp"), returnData = T)
 percentVar <- round(100*attr(pcaData,"percentVar"))#shows variance explained on each axis
-
+?vst
 final_temp_colors <- c("BASE" = "blue4", "A28" = "hotpink", "A33" = "green4")
 shapes_choose <- c("D18" = 16, "D22" = 18)
 

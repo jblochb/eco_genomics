@@ -11,7 +11,7 @@ resultsNames(dds)
 # [3] "group_D18A28_vs_D18A28" "group_D22A28_vs_D18A28" 
 # [5] "group_D22A33_vs_D18A28"  "group_D22A28_vs_D18A28"
 
-#1. Compare A28line gene expression between developmental treatment groups
+#1. Compare Baseline gene expression between developmental treatment groups
 res_D18_BASE_D22_BASE <- results(dds, contrast = c("group", "D18BASE", "D22BASE"), alpha = 0.05)
 res_D18_BASE_D22_BASE <- res_D18_BASE_D22_BASE[!is.na(res_D18_BASE_D22_BASE$padj),]
 res_D18_BASE_D22_BASE <- res_D18_BASE_D22_BASE[order(res_D18_BASE_D22_BASE$padj),]
