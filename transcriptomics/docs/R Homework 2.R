@@ -1,11 +1,9 @@
 #import libraries
 {library(DESeq2)
   library(ggplot2)
-  library(WGCNA); options(stringsAsFactors = F)
   library(tidyverse)
   library(CorLevelPlot)
   library(gridExtra)
-  library(Rmisc)
   library(eulerr)
   library(pheatmap)
   library(dplyr)
@@ -151,16 +149,16 @@ Euler1 <- plot(Euler18, lty=1:3, quantities =T)
 length(intersect(degs_D22_BASE_D22_A28,degs_D22_BASE_D22_A33)) #144
 289 - 144 #145 DEGs between base and A28 at 22 DevTemp
 1564 - 144 #1420 DEGs between base and A33 at 22 DevTemp
-
+D22diffs <- as_data_frame(intersect(degs_D22_BASE_D22_A28,degs_D22_BASE_D22_A33))
 Euler22 <- euler(c("A28"=145,"A33"=1420,"A28&A33"=144))
 Euler22
-plot(Euler22, lty=1:3, quantities = T)
+Euler2 <- plot(Euler22, lty=1:3, quantities = T)
 ?eulerr
 ?grid.arrange
 combined_plot <- grid.arrange(Euler1, Euler2, ncol = 2)
 #################################
 #
-# Make a scatter plot of responses to A28/A33 when copepods develop at 18
+# Make a scatter plot of responses for each devtemp
 #
 #################################
 
@@ -263,13 +261,15 @@ plotBASE22 <- ggplot(res_dfBASE22, aes(x = log2FoldChange.A28, y = log2FoldChang
   geom_text(data = label_data22, aes(x = x_pos, y = y_pos, label = count, color = fill), size = 5)
 plotBASE22
 }
-combined_plot <- grid.arrange(Euler1, Euler2, ncol = 2)
+combined_plot <- grid.arrange(Euler1, Euler2, ncol = 2) 
 patchwork<- plotBASE + plotBASE22
 
 patchwork + plot_annotation(
   tag_levels = "A", title = "Figure 2: Scatter plots of Log Fold Change",
-  subtitle = "Figure 1A and Figure 1B", caption = "This is an experimental caption :)"
+  subtitle = "Scatter plots were generated from significant DEGs using DESeq results. Log2 Fold Change (LFC) of two separate contrasts compose the axes.Figure 1A and Figure 1B. "
 )
 pdf("figures/final_pca.pdf")
 ggsave("~/projects/eco_genomics/transcriptomics/figures/combined_scatter_plotBASE18and22.png", combined_plot, width = 12, height = 6)
 help("patchwork")
+
+?ggplot
