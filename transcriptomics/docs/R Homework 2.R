@@ -191,7 +191,6 @@ res_dfBASE <- res_dfBASE %>%
 color_counts <- res_dfBASE %>% 
   group_by(fill) %>%
   dplyr::summarize(count = dplyr::n())
-count(na.omit(res_dfBASE$fill))
 label_positions <- data.frame(
   fill = c("cadetblue", "darkred", "cadetblue1","tomato"),
   x_pos =c(1,5,0,-7.5),
@@ -205,8 +204,7 @@ plotBASE <- ggplot(res_dfBASE, aes(x = log2FoldChange.A28, y = log2FoldChange.A3
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black")+
   geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey")+
   xlim(-10,10)+ ylim(-10,10)+
-  labs(x = "LFC (BASE vs 28 at 18)", y = "LFC (BASE vs 33 at 18)",
-       title = "Gene expression response at FinalTemps 28C and 33C")+
+  labs(x = "LFC (BASE vs 28°C at 18°C)", y = "LFC (BASE vs 33°C at 18°C)")+
   theme_minimal()+
   geom_text(data = label_data, aes(x = x_pos, y = y_pos, label = count, color = fill), size = 5)
 plotBASE
@@ -241,11 +239,10 @@ res_dfBASE22 <- res_dfBASE22 %>%
 color_counts22 <- res_dfBASE22 %>% 
   group_by(fill) %>%
   dplyr::summarize(count = dplyr::n())
-count(na.omit(res_dfBASE$fill))
 label_positions <- data.frame(
   fill = c("cadetblue", "darkred", "cadetblue1","tomato"),
-  x_pos =c(1,5,0,-7.5),
-  y_pos =c(-5,0,9,3)
+  x_pos =c(2,5,0,-5),
+  y_pos =c(-6,0,9,1)
 )
 
 label_data22 <- merge(color_counts22, label_positions, by = "fill")
@@ -255,8 +252,7 @@ plotBASE22 <- ggplot(res_dfBASE22, aes(x = log2FoldChange.A28, y = log2FoldChang
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black")+
   geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey")+
   xlim(-10,10)+ ylim(-10,10)+
-  labs(x = "LFC (BASE vs 28 at 22)", y = "LFC (BASE vs 33 at 22)",
-       title = "Gene expression response at FinalTemps 28C and 33C when DevTemp = 22")+
+  labs(x = "LFC (BASE vs 28°C at 22°C)", y = "LFC (BASE vs 33°C at 22°C)")+
   theme_minimal()+
   geom_text(data = label_data22, aes(x = x_pos, y = y_pos, label = count, color = fill), size = 5)
 plotBASE22
@@ -265,11 +261,22 @@ combined_plot <- grid.arrange(Euler1, Euler2, ncol = 2)
 patchwork<- plotBASE + plotBASE22
 
 patchwork + plot_annotation(
-  tag_levels = "A", title = "Figure 2: Scatter plots of Log Fold Change",
-  subtitle = "Scatter plots were generated from significant DEGs using DESeq results. Log2 Fold Change (LFC) of two separate contrasts compose the axes.Figure 1A and Figure 1B. "
+  tag_levels = "A"
 )
-pdf("figures/final_pca.pdf")
+pdf("figures/final_LFCplot.pdf")
 ggsave("~/projects/eco_genomics/transcriptomics/figures/combined_scatter_plotBASE18and22.png", combined_plot, width = 12, height = 6)
 help("patchwork")
 
 ?ggplot
+
+#Investigating Base18 vs Base22
+
+res_D18_BASE_D22_BASE <- results(dds, contrast = c("group", "D18BASE", "D22BASE"), alpha = 0.05)
+res_D18_BASE_D22_BASE <- res_D18_BASE_D22_BASE[!is.na(res_D18_BASE_D22_BASE$padj),]
+res_D18_BASE_D22_BASE <- res_D18_BASE_D22_BASE[order(res_D18_BASE_D22_BASE$padj),]
+head(res_D18_BASE_D22_BASE)
+summary(res_D18_BASE_D22_BASE)
+degs_D18_BASE_D22_BASE <- rownames(res_D18_BASE_D22_BASE[res_D18_BASE_D22_BASE$padj < 0.05,])
+length(degs_D18_BASE_D22_BASE)
+
+citation(package = "gridExtra", lib.loc = NULL)
