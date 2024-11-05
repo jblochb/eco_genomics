@@ -142,7 +142,7 @@ length(intersect(degs_D18_BASE_D18_A28,degs_D18_BASE_D18_A33)) #34
 41 - 34 #7 DEGs between base and A28 at 18 DevTemp
 332 - 34 #298 DEGs between base and A33 at 18 DevTemp
 
-Euler18 <- euler(c("A28"=7,"A33"=298,"A28&A33"=41))
+Euler18 <- euler(c("A28"=7,"A33"=298,"A28&A33"=34))
 Euler18
 Euler1 <- plot(Euler18, lty=1:3, quantities =T)
 
