@@ -72,7 +72,7 @@ meta2$pop = as.factor(meta$id)
 options(bitmapType='cairo')
 ?X11.options
 X11.options(type="cairo")
-vcf.filt.indMiss <- missing_by_sample(vcf.filt, popmap = meta2, cutoff = 0.60)
+vcf.filt.indMiss <- missing_by_sample(vcf.filt, popmap = meta2, cutoff = 0.45)
 strwidth(vcf.filt, font = NULL)
 ?missing_by_sample
 ?strwidth
