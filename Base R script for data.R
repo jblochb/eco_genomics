@@ -224,3 +224,20 @@ dim(vcf.filt3@gt)
 #still need to filter on SNPwise and low freq alleles 
 
 individual_missing_proportion <- rowMeans(is.na(vcf.filt.indSNPmiss@gt))
+
+#################
+
+# Imaging the Newick Format Tree
+
+#################
+
+library(ape)
+?ape
+
+Phylo_data <- read.tree(text = "(((WEU:0.000703825,((SEU:0.00529387,CEU:0.0016699):0.000857844,PNW:0.00334327):0.00111713):0.00154775,NEU:0.0034095):0.000375701,NE:0.000375701);
+")
+plot(Phylo_data)
+plot.phylo(Phylo_data, type = "unrooted")
+Mig_data <- read.tree(text = "((WEU:0.000703824,((SEU:0.0125373,CEU:0.000611748):0.00224212,PNW:0.00399551):0.000464885):0.000773874,(NEU:0.0034095,NE:0.000751401):0.000773874);
+0.326489 NA NA NA PNW:0.00399551 SEU:0.0125373")
+plot.phylo(Mig_data, type = "unrooted")
