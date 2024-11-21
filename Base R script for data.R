@@ -245,3 +245,4 @@ setwd("/gpfs1/cl/pbiosw/treemix-1.13/")
 # Commands to run on the terminal 
 # source("src/plotting_funcs.R")
 # plot_tree("treemix_output")
+One_mig_tree
