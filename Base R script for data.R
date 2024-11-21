@@ -241,3 +241,7 @@ plot.phylo(Phylo_data, type = "unrooted")
 Mig_data <- read.tree(text = "((WEU:0.000703824,((SEU:0.0125373,CEU:0.000611748):0.00224212,PNW:0.00399551):0.000464885):0.000773874,(NEU:0.0034095,NE:0.000751401):0.000773874);
 0.326489 NA NA NA PNW:0.00399551 SEU:0.0125373")
 plot.phylo(Mig_data, type = "unrooted")
+setwd("/gpfs1/cl/pbiosw/treemix-1.13/")
+# Commands to run on the terminal 
+# source("src/plotting_funcs.R")
+# plot_tree("treemix_output")
