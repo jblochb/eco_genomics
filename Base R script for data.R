@@ -190,10 +190,11 @@ treemix2 <- read.table("treemix2_infile.txt")
 dim("treemix_infile.txt")
 summary("treemix_infile.txt")
 
+
 ####### ############ ########### ############ 
 
 ##### Investigating filtering for no missingness
-
+{
 ##### ########### ######### ############
 vcf.filt <- hard_filter(vcf.thin, depth = 3)
 vcf.filt <- max_depth(vcf.filt, maxdepth = 40)
@@ -224,7 +225,7 @@ dim(vcf.filt3@gt)
 #still need to filter on SNPwise and low freq alleles 
 
 individual_missing_proportion <- rowMeans(is.na(vcf.filt.indSNPmiss@gt))
-
+}
 #################
 
 # Imaging the Newick Format Tree
@@ -246,3 +247,58 @@ setwd("/gpfs1/cl/pbiosw/treemix-1.13/")
 # source("src/plotting_funcs.R")
 # plot_tree("treemix_output")
 One_mig_tree
+Three_mig_tree
+Four_mig_tree
+Five_mig_tree
+#NCBI database bioproject, has to be WGS for a different centaurea species 
+
+
+##########################################################
+
+# Adding the Reference genome in as an outgroup 
+
+ref.vcf <- read.vcfR("/gpfs1/cl/pbio3990/GroupProjects/Cent_history/Centaurea_solstitialis_RNASeq/cleanreads/CsolsRNASeq_filtered.vcf.gz")
+ref.vcf 
+setwd("~/projects/eco_genomics/population_genomics/")
+vcf<- read.vcfR("outputs/vcf_final.filtered.vcf.gz")
+vcf.thin <- distance_thin(vcf, min.distance = 500)
+ref.vcf.thin <- distance_thin(ref.vcf, min.distance = 500)
+vcf.filt3
+view(vcf.filt3@gt)
+view(ref.vcf.thin@gt)
+
+
+gt_vcf.thin <- extract.gt(vcf.thin)
+gt_ref.vcf.thin <- extract.gt(ref.vcf.thin)
+
+# Find common SNPs between the two VCF files
+common_snps <- intersect(rownames(gt_vcf.thin), rownames(gt_ref.vcf.thin))
+
+# Subset the genotype data to include only the common SNPs
+gt1_common <- gt_vcf.thin[common_snps, ]
+gt2_common <- gt_ref.vcf.thin[common_snps, ]
+
+# Combine the common SNP genotypes
+merged_gt_common <- cbind(gt1_common, gt2_common)
+
+?rbind
+vcf_merged <- rbind(vcf.thin,ref.vcf.thin)
+ref.vcf.thin
+vcf.thin
+ref.vcf.thinrows <- ref.vcf.thin@gt[snp_ids,]
+ref.vcf.thinrows <- ref.vcf.thin[(common_snps),]
+snp_id_df <- merged_gt_common[,1]
+snp_id_df <- as.data.frame(snp_id_df)
+snp_ids <- as.character(rownames(snp_id_df))
+snp_ids <- as.data.frame(snp_ids)
+write_csv(snp_ids, "~/projects/eco_genomics/Group Project/outputs/snp_ids")
+merged_gt_common <- as.data.frame(merged_gt_common)
+write_csv(merged_gt_common, "~/projects/eco_genomics/Group Project/outputs/merged_gt_common")
+
+write.vcf(vcf.thin, "~/projects/eco_genomics/Group Project/outputs/pops.thin.vcf")
+write.vcf(ref.vcf.thin, "~/projects/eco_genomics/Group Project/outputs/ref.thin.vcf")
+vcf_thin_gt <- vcf.thin@gt
+vcf_thin_fix <- vcf.thin@fix
+vcf_thin_fix_snp_ids <- merge(snp_ids, vcf_thin_fix)
+
+logical_vector <- ref.vcf.thin$ID %in% snp_ids
