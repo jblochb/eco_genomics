@@ -191,18 +191,18 @@ dim("treemix_infile.txt")
 summary("treemix_infile.txt")
 
 ##### Final vcf tree
-
-metatree <- meta[meta$id %in% colnames(final_merged.vcf@gt[,-1]),]
+write_csv(meta, "~/projects/eco_genomics/Group Project/outputs/metadata")
+metatree <- metadata[metadata$id %in% colnames(final_merged.vcf@gt[,-1]),]
 
 vcf2treemix(
   final_merged.vcf,
   ind_pop = ind_pop,
   keep_pop = keepers,
   inc_missing = TRUE,
-  out_file = "treemixMerged_infile.txt"
+  out_file = "~/projects/eco_genomics/Group Project/outputs/treemixMerged_infile.txt"
 )
 
-treemixMerged <- read.table("treemixMerged_infile.txt")
+treemixMerged <- read.table("~/projects/eco_genomics/Group Project/outputs/treemixMerged_infile.txt")
 ####### ############ ########### ############ 
 
 ##### Investigating filtering for no missingness
@@ -324,5 +324,6 @@ write.table(snp_ids, "~/projects/eco_genomics/Group Project/outputs/common.pos.t
 merged.vcf <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/merged.vcf.gz")
 view(merged.vcf@gt)
 
-
 final_merged.vcf <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/final_merged.vcf.recode.vcf")
+
+metadata <- read_csv("~/projects/eco_genomics/Group Project/outputs/metadata")
