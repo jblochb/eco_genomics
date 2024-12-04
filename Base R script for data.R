@@ -190,7 +190,19 @@ treemix2 <- read.table("treemix2_infile.txt")
 dim("treemix_infile.txt")
 summary("treemix_infile.txt")
 
+##### Final vcf tree
 
+metatree <- meta[meta$id %in% colnames(final_merged.vcf@gt[,-1]),]
+
+vcf2treemix(
+  final_merged.vcf,
+  ind_pop = ind_pop,
+  keep_pop = keepers,
+  inc_missing = TRUE,
+  out_file = "treemixMerged_infile.txt"
+)
+
+treemixMerged <- read.table("treemixMerged_infile.txt")
 ####### ############ ########### ############ 
 
 ##### Investigating filtering for no missingness
@@ -266,6 +278,8 @@ ref.vcf.thin <- distance_thin(ref.vcf, min.distance = 500)
 vcf.filt3
 view(vcf.filt3@gt)
 view(ref.vcf.thin@gt)
+vcf.thin <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/vcf.thin")
+ref.vcf.thin <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/ref.vcf.thin")
 
 
 gt_vcf.thin <- extract.gt(vcf.thin)
@@ -296,9 +310,19 @@ merged_gt_common <- as.data.frame(merged_gt_common)
 write_csv(merged_gt_common, "~/projects/eco_genomics/Group Project/outputs/merged_gt_common")
 
 write.vcf(vcf.thin, "~/projects/eco_genomics/Group Project/outputs/pops.thin.vcf")
-write.vcf(ref.vcf.thin, "~/projects/eco_genomics/Group Project/outputs/ref.thin.vcf")
+write.vcf(ref.vcf.thin, "~/projects/eco_genomics/Group Project/outputs/ref.thin.vcf.gz")
+
+write.vcf(vcf.thin, "~/projects/eco_genomics/Group Project/outputs/jacea_thin.vcf")
+
 vcf_thin_gt <- vcf.thin@gt
 vcf_thin_fix <- vcf.thin@fix
 vcf_thin_fix_snp_ids <- merge(snp_ids, vcf_thin_fix)
 
 logical_vector <- ref.vcf.thin$ID %in% snp_ids
+
+write.table(snp_ids, "~/projects/eco_genomics/Group Project/outputs/common.pos.txt", quote = F, row.names = F)
+merged.vcf <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/merged.vcf.gz")
+view(merged.vcf@gt)
+
+
+final_merged.vcf <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/final_merged.vcf.recode.vcf")

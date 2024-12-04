@@ -19,3 +19,9 @@ gzip treemix_infile.txt
 #The below command calls treemix from its directory then works on the input file and creates an output file
 /gpfs1/cl/pbiosw/treemix-1.13/src/treemix -i treemix_infile.txt.gz -o treemix_output
 # The output is a tree in Newick format
+
+### Merging vcfs 
+#pipeline: 
+
+#Final step to save only the positions from the common snps file 
+vcftools --gzvcf merged.vcf.gz --positions positions.txt --recode --out final_merged.vcf
