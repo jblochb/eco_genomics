@@ -17,11 +17,13 @@ Phylo_data <- read.tree(text = "(((SEU:0.00504761,CEU:0.00151707):0.00153618,PNW
 plot_tree("out_stem")
 plot_tree("out_stem3")
 plot_tree("out_stem4")
+plot_tree("out_stem5")
 #No migration events tree: ln(likelihood) = 167.83304
 #One migration events tree: ln(likelihood) = 194.99464
 #Two migration events tree: ln(likelihood) = 199.97198
 #Three migration events tree: ln(likelihood) = 200.92086
 #Four migration events tree: ln(likelihood) = 201.48137
+#Five migration events tree: ln(likelihood) = 202.15676
 vcf2treemix(
   final_merged.vcf,
   ind_pop = ind_pop,

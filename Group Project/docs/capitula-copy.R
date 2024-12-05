@@ -2,7 +2,6 @@ library(ggfortify)
 library(tidyverse)
 options(bitmapType = "cairo")
 X11.options(type="cairo")
-
 setwd("/gpfs1/cl/pbio3990/PopulationGenomics/traits/capitula/")
 setwd("~/")
 dat <- read.csv("PNW_EU_NE_capitulummeasurements.csv", header=T)
@@ -17,7 +16,8 @@ dat = dat %>%
 head(dat)
 
 summary(dat)
-
+?prcomp
+?stats
 
 pca1 <- prcomp(dat[,c(7:20)], center=T, scale=T)
 View(pca1)
