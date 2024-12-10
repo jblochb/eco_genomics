@@ -23,8 +23,8 @@ pca1 <- prcomp(dat[,c(7:20)], center=T, scale=T)
 View(pca1)
 pca1.df <- as.data.frame(pca1$x)
 pca2 <- prcomp(dat[,c(16,18,19)], center=T, scale=T)
-
-
+?prcomp
+?autoplot
 autoplot(pca1, data = dat, colour = 'Region',
          loadings = TRUE, loadings.colour = 'blue',
          loadings.label = TRUE, loadings.label.size = 3)
@@ -34,3 +34,4 @@ autoplot(pca2, data = dat, colour = 'Region',
          loadings.label = TRUE, loadings.label.size = 3)
 
 
+citation()

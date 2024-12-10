@@ -8,15 +8,25 @@ library(gridExtra)
 options(bitmapType='cairo')
 X11.options(type="cairo")
 
+
+#Move this file to the proper directory
+file.rename("~/projects/eco_genomics/Base R script for data.R", "~/projects/eco_genomics/Group Project/docs/Base R script for data.R")
+
+
 #Load in Data
 
 
 CentData <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/traits/capitula/PNW_EU_NE_capitulummeasurements.csv")
 
+#Useful WDs
 setwd("/gpfs1/cl/pbio3990/PopulationGenomics/traits/capitula/")
+setwd("~/projects/eco_genomics/population_genomics/")
+setwd("~/projects/eco_genomics/")
+setwd("~/projects/eco_genomics/Group Project/outputs/")
+
 dat <- read.csv("PNW_EU_NE_capitulummeasurements.csv", header=T)
 
-setwd("~/projects/eco_genomics/population_genomics/")
+
 vcf<- read.vcfR("outputs/vcf_final.filtered.vcf.gz")
 vcf.thin <- distance_thin(vcf, min.distance = 500)
 View(vcf.thin@gt)
@@ -100,7 +110,7 @@ colnames(DF_for_PCA2.2)[colnames(DF_for_PCA2.2) == 'trait_PC1'] <- 'trait_PC2'
 }
 
 # Plotting both PCs
-PCA1 <- ggplot(PCA_data,
+{PCA1 <- ggplot(PCA_data,
        aes(x = Genomic_PC1, y = trait_PC1, color = region, shape= continent))+
   geom_point(alpha=0.7)+
   labs(title = "Centaurea genetic vs trait PCA", x = "Genomic PC1", y = "Trait PC1", color = "Region", shape = "Color")
@@ -137,7 +147,7 @@ PCA6 <- ggplot(PCA_data,
   labs(title = "Centaurea genetic vs trait ratio PCA", x = "Genomic PC2", y = "Trait PC1 (3var)", color = "Region", shape = "Color")
 
 combined_plot <- grid.arrange(PCA1, PCA2, PCA3, PCA4, PCA5, PCA6, ncol = 2) 
-
+}
 ??grid.arrange
 #### Probably don't need 
 {
@@ -185,8 +195,8 @@ vcf2treemix(
   inc_missing = TRUE,
   out_file = "treemix2_infile.txt"
 )
-treemix <- read.table("treemix_infile.txt")
-treemix2 <- read.table("treemix2_infile.txt")
+treemix <- read.table("treemix_infile.txt.gz")
+treemix2 <- read.table("treemix2_infile.txt.gz")
 dim("treemix_infile.txt")
 summary("treemix_infile.txt")
 
@@ -278,6 +288,9 @@ ref.vcf.thin <- distance_thin(ref.vcf, min.distance = 500)
 vcf.filt3
 view(vcf.filt3@gt)
 view(ref.vcf.thin@gt)
+
+#Not used in final paper (script for merging vcfs)
+{
 vcf.thin <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/vcf.thin")
 ref.vcf.thin <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/ref.vcf.thin")
 
@@ -295,17 +308,14 @@ gt2_common <- gt_ref.vcf.thin[common_snps, ]
 # Combine the common SNP genotypes
 merged_gt_common <- cbind(gt1_common, gt2_common)
 
-?rbind
-vcf_merged <- rbind(vcf.thin,ref.vcf.thin)
-ref.vcf.thin
-vcf.thin
+
 ref.vcf.thinrows <- ref.vcf.thin@gt[snp_ids,]
 ref.vcf.thinrows <- ref.vcf.thin[(common_snps),]
 snp_id_df <- merged_gt_common[,1]
 snp_id_df <- as.data.frame(snp_id_df)
 snp_ids <- as.character(rownames(snp_id_df))
 snp_ids <- as.data.frame(snp_ids)
-write_csv(snp_ids, "~/projects/eco_genomics/Group Project/outputs/snp_ids")
+write_csv(snp_ids, "~/projects/eco_genomics/Group Project/outputs/snp_ids2")
 merged_gt_common <- as.data.frame(merged_gt_common)
 write_csv(merged_gt_common, "~/projects/eco_genomics/Group Project/outputs/merged_gt_common")
 
@@ -327,3 +337,4 @@ view(merged.vcf@gt)
 final_merged.vcf <- read.vcfR("~/projects/eco_genomics/Group Project/outputs/final_merged.vcf.recode.vcf")
 
 metadata <- read_csv("~/projects/eco_genomics/Group Project/outputs/metadata")
+}

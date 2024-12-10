@@ -20,6 +20,9 @@ gzip treemix_infile.txt
 /gpfs1/cl/pbiosw/treemix-1.13/src/treemix -i treemix_infile.txt.gz -o treemix_output
 # The output is a tree in Newick format
 
+#Then plot_tree() is used in RStudio to visualize the output.
+
+
 ### Merging vcfs 
 #pipeline: 
 
